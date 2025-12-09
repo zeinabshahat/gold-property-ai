@@ -37,20 +37,18 @@ const PropertyDetail = () => {
   };
 
   const checkFavorite = async (userId: string) => {
-    const { data } = await supabase
-      .from("favorites")
+    const { data } = await (supabase.from("favorites") as any)
       .select("*")
       .eq("user_id", userId)
       .eq("property_id", id)
-      .single();
+      .maybeSingle();
     setIsFavorite(!!data);
   };
 
   const fetchProperty = async () => {
     try {
       setLoading(true);
-      const { data, error } = await supabase
-        .from("properties")
+      const { data, error } = await (supabase.from("properties") as any)
         .select("*")
         .eq("id", id)
         .single();
@@ -59,13 +57,14 @@ const PropertyDetail = () => {
       setProperty(data);
 
       // Fetch similar properties
-      const { data: similar } = await supabase
-        .from("properties")
-        .select("*")
-        .eq("type", data.type)
-        .neq("id", id)
-        .limit(3);
-      setSimilarProperties(similar || []);
+      if (data) {
+        const { data: similar } = await (supabase.from("properties") as any)
+          .select("*")
+          .eq("type", data.type)
+          .neq("id", id)
+          .limit(3);
+        setSimilarProperties(similar || []);
+      }
     } catch (error: any) {
       toast({
         title: "Error",
@@ -100,16 +99,14 @@ const PropertyDetail = () => {
 
     try {
       if (isFavorite) {
-        await supabase
-          .from("favorites")
+        await (supabase.from("favorites") as any)
           .delete()
           .eq("user_id", user.id)
           .eq("property_id", id);
         setIsFavorite(false);
         toast({ title: "Removed from favorites" });
       } else {
-        await supabase
-          .from("favorites")
+        await (supabase.from("favorites") as any)
           .insert({ user_id: user.id, property_id: id });
         setIsFavorite(true);
         toast({ title: "Added to favorites" });
