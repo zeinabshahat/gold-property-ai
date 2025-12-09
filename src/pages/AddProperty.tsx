@@ -10,7 +10,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { Home, MapPin, DollarSign, Maximize2, Bed, Bath, Link, Building } from "lucide-react";
+import { Home, MapPin, DollarSign, Maximize2, Bed, Bath, Link, Building, ImageIcon } from "lucide-react";
+import ImageUpload from "@/components/ImageUpload";
 
 interface PropertyFormData {
   title: string;
@@ -32,6 +33,7 @@ const AddProperty = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
+  const [images, setImages] = useState<string[]>([]);
   const [formData, setFormData] = useState<PropertyFormData>({
     title: "",
     description: "",
@@ -81,7 +83,7 @@ const AddProperty = () => {
         area: formData.area ? parseFloat(formData.area) : 0,
         latitude: formData.locationLat ? parseFloat(formData.locationLat) : null,
         longitude: formData.locationLang ? parseFloat(formData.locationLang) : null,
-        images: [],
+        images: images,
         features: formData.tour360Url ? [`360 Tour: ${formData.tour360Url}`] : [],
       };
 
@@ -228,6 +230,15 @@ const AddProperty = () => {
                         <SelectItem value="commercial">Commercial</SelectItem>
                       </SelectContent>
                     </Select>
+                  </div>
+
+                  {/* Property Images */}
+                  <div>
+                    <Label className="flex items-center gap-2 mb-2">
+                      <ImageIcon className="h-4 w-4" />
+                      Property Images
+                    </Label>
+                    <ImageUpload images={images} onImagesChange={setImages} maxImages={10} />
                   </div>
                 </div>
 
