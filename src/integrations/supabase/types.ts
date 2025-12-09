@@ -14,7 +14,255 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      bookings: {
+        Row: {
+          created_at: string | null
+          full_name: string
+          id: string
+          meeting_location: string | null
+          meeting_type: string
+          phone: string
+          preferred_date: string
+          property_id: string
+          status: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          full_name: string
+          id?: string
+          meeting_location?: string | null
+          meeting_type: string
+          phone: string
+          preferred_date: string
+          property_id: string
+          status?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          full_name?: string
+          id?: string
+          meeting_location?: string | null
+          meeting_type?: string
+          phone?: string
+          preferred_date?: string
+          property_id?: string
+          status?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bookings_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      favorites: {
+        Row: {
+          created_at: string | null
+          id: string
+          property_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          property_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          property_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "favorites_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      membership_plans: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          duration_months: number
+          features: string[] | null
+          id: string
+          name: string
+          price: number
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          duration_months: number
+          features?: string[] | null
+          id?: string
+          name: string
+          price: number
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          duration_months?: number
+          features?: string[] | null
+          id?: string
+          name?: string
+          price?: number
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string | null
+          full_name: string | null
+          id: string
+          phone: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          full_name?: string | null
+          id: string
+          phone?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          full_name?: string | null
+          id?: string
+          phone?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      properties: {
+        Row: {
+          area: number
+          bathrooms: number | null
+          bedrooms: number | null
+          category: string | null
+          created_at: string | null
+          description: string | null
+          electricity: boolean | null
+          features: string[] | null
+          finishing: string | null
+          has_garage: boolean | null
+          has_garden: boolean | null
+          has_pool: boolean | null
+          id: string
+          images: string[] | null
+          latitude: number | null
+          location: string
+          longitude: number | null
+          name: string
+          owner_contact: string | null
+          owner_name: string | null
+          price: number
+          status: string
+          type: string
+          updated_at: string | null
+        }
+        Insert: {
+          area: number
+          bathrooms?: number | null
+          bedrooms?: number | null
+          category?: string | null
+          created_at?: string | null
+          description?: string | null
+          electricity?: boolean | null
+          features?: string[] | null
+          finishing?: string | null
+          has_garage?: boolean | null
+          has_garden?: boolean | null
+          has_pool?: boolean | null
+          id?: string
+          images?: string[] | null
+          latitude?: number | null
+          location: string
+          longitude?: number | null
+          name: string
+          owner_contact?: string | null
+          owner_name?: string | null
+          price: number
+          status: string
+          type: string
+          updated_at?: string | null
+        }
+        Update: {
+          area?: number
+          bathrooms?: number | null
+          bedrooms?: number | null
+          category?: string | null
+          created_at?: string | null
+          description?: string | null
+          electricity?: boolean | null
+          features?: string[] | null
+          finishing?: string | null
+          has_garage?: boolean | null
+          has_garden?: boolean | null
+          has_pool?: boolean | null
+          id?: string
+          images?: string[] | null
+          latitude?: number | null
+          location?: string
+          longitude?: number | null
+          name?: string
+          owner_contact?: string | null
+          owner_name?: string | null
+          price?: number
+          status?: string
+          type?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      user_memberships: {
+        Row: {
+          created_at: string | null
+          end_date: string
+          id: string
+          plan_id: string
+          start_date: string | null
+          status: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          end_date: string
+          id?: string
+          plan_id: string
+          start_date?: string | null
+          status?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          end_date?: string
+          id?: string
+          plan_id?: string
+          start_date?: string | null
+          status?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_memberships_plan_id_fkey"
+            columns: ["plan_id"]
+            isOneToOne: false
+            referencedRelation: "membership_plans"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never

@@ -9,6 +9,9 @@ import Comparison from "./pages/Comparison";
 import Analytics from "./pages/Analytics";
 import Investment from "./pages/Investment";
 import Offers from "./pages/Offers";
+import Properties from "./pages/Properties";
+import PropertyDetail from "./pages/PropertyDetail";
+import AddProperty from "./pages/AddProperty";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -26,6 +29,9 @@ const App = () => (
           <Route path="/analytics" element={<Analytics />} />
           <Route path="/investment" element={<Investment />} />
           <Route path="/offers" element={<Offers />} />
+          <Route path="/properties" element={<Properties />} />
+          <Route path="/property/:id" element={<PropertyDetail />} />
+          <Route path="/add-property" element={<AddProperty />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

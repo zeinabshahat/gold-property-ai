@@ -41,7 +41,7 @@ const Properties = () => {
   const fetchProperties = async () => {
     try {
       setLoading(true);
-      let query = supabase.from("properties").select("*");
+      let query = (supabase.from("properties") as any).select("*");
 
       // Apply filters
       if (propertyType) query = query.eq("type", propertyType);
