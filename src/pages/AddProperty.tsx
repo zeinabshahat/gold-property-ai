@@ -12,6 +12,7 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Home, MapPin, DollarSign, Maximize2, Bed, Bath, Link, Building, ImageIcon } from "lucide-react";
 import ImageUpload from "@/components/ImageUpload";
+import LocationPicker from "@/components/LocationPicker";
 
 interface PropertyFormData {
   title: string;
@@ -323,29 +324,19 @@ const AddProperty = () => {
                       />
                     </div>
 
-                    {/* Location Latitude */}
-                    <div>
-                      <Label htmlFor="locationLat">Latitude</Label>
-                      <Input
-                        id="locationLat"
-                        type="number"
-                        step="any"
-                        placeholder="e.g., 30.0444"
-                        value={formData.locationLat}
-                        onChange={(e) => handleChange("locationLat", e.target.value)}
-                      />
-                    </div>
-
-                    {/* Location Longitude */}
-                    <div>
-                      <Label htmlFor="locationLang">Longitude</Label>
-                      <Input
-                        id="locationLang"
-                        type="number"
-                        step="any"
-                        placeholder="e.g., 31.2357"
-                        value={formData.locationLang}
-                        onChange={(e) => handleChange("locationLang", e.target.value)}
+                    {/* Location Map Picker */}
+                    <div className="md:col-span-2">
+                      <Label className="flex items-center gap-2 mb-2">
+                        <MapPin className="h-4 w-4" />
+                        Property Location
+                      </Label>
+                      <LocationPicker
+                        latitude={formData.locationLat}
+                        longitude={formData.locationLang}
+                        onLocationChange={(lat, lng) => {
+                          handleChange("locationLat", lat);
+                          handleChange("locationLang", lng);
+                        }}
                       />
                     </div>
                   </div>
