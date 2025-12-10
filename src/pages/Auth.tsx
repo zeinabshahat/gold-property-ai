@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { MapPin, Home, Building2, Calculator, BarChart3, Scale, Briefcase, Eye, EyeOff } from "lucide-react";
+import { MapPin, Home, Building2, Calculator, BarChart3, Scale, Briefcase, Eye, EyeOff, User, Palette, Key, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -16,11 +16,22 @@ const features = [
   { icon: Briefcase, title: "Offers", description: "Exclusive Deals" },
 ];
 
+const roles = [
+  { id: "customer", label: "Customer", icon: User, description: "Browse and book properties" },
+  { id: "owner", label: "Property Owner", icon: Key, description: "List and manage your properties" },
+  { id: "designer", label: "Internal Designer", icon: Palette, description: "Design and staging services" },
+  { id: "admin", label: "Admin", icon: Users, description: "Full system access" },
+];
+
+const ADMIN_SECRET_CODE = "ADMIN2024"; // In production, this should be validated server-side
+
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
+  const [selectedRole, setSelectedRole] = useState("customer");
+  const [adminCode, setAdminCode] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -41,12 +52,20 @@ const Auth = () => {
         toast({ title: "Welcome back!", description: "You have successfully logged in." });
         navigate("/");
       } else {
+        // Validate admin code if admin role selected
+        if (selectedRole === "admin" && adminCode !== ADMIN_SECRET_CODE) {
+          throw new Error("Invalid admin code. Please contact system administrator.");
+        }
+
         const { error } = await supabase.auth.signUp({
           email,
           password,
           options: {
             emailRedirectTo: `${window.location.origin}/`,
-            data: { full_name: fullName },
+            data: { 
+              full_name: fullName,
+              role: selectedRole,
+            },
           },
         });
         if (error) throw error;
@@ -92,17 +111,60 @@ const Auth = () => {
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-6">
             {!isLogin && (
-              <div>
-                <label className="block text-sm text-muted-foreground mb-2">Full Name</label>
-                <Input
-                  type="text"
-                  value={fullName}
-                  onChange={(e) => setFullName(e.target.value)}
-                  placeholder="Enter your full name"
-                  className="h-12"
-                  required={!isLogin}
-                />
-              </div>
+              <>
+                <div>
+                  <label className="block text-sm text-muted-foreground mb-2">Full Name</label>
+                  <Input
+                    type="text"
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                    placeholder="Enter your full name"
+                    className="h-12"
+                    required={!isLogin}
+                  />
+                </div>
+
+                {/* Role Selection */}
+                <div>
+                  <label className="block text-sm text-muted-foreground mb-3">I am a...</label>
+                  <div className="grid grid-cols-2 gap-3">
+                    {roles.map((role) => (
+                      <button
+                        key={role.id}
+                        type="button"
+                        onClick={() => setSelectedRole(role.id)}
+                        className={`p-4 rounded-xl border-2 transition-all duration-200 text-left ${
+                          selectedRole === role.id
+                            ? "border-primary bg-primary/5"
+                            : "border-border hover:border-primary/50"
+                        }`}
+                      >
+                        <role.icon className={`w-5 h-5 mb-2 ${selectedRole === role.id ? "text-primary" : "text-muted-foreground"}`} />
+                        <p className={`font-medium text-sm ${selectedRole === role.id ? "text-primary" : "text-foreground"}`}>
+                          {role.label}
+                        </p>
+                        <p className="text-xs text-muted-foreground mt-1">{role.description}</p>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Admin Code Input */}
+                {selectedRole === "admin" && (
+                  <div>
+                    <label className="block text-sm text-muted-foreground mb-2">Admin Secret Code</label>
+                    <Input
+                      type="password"
+                      value={adminCode}
+                      onChange={(e) => setAdminCode(e.target.value)}
+                      placeholder="Enter admin code"
+                      className="h-12"
+                      required
+                    />
+                    <p className="text-xs text-muted-foreground mt-1">Contact your system administrator for the code</p>
+                  </div>
+                )}
+              </>
             )}
 
             <div>
