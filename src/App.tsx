@@ -14,6 +14,11 @@ import PropertyDetail from "./pages/PropertyDetail";
 import AddProperty from "./pages/AddProperty";
 import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
+import DesignerDashboard from "./pages/dashboard/DesignerDashboard";
+import CustomerDashboard from "./pages/dashboard/CustomerDashboard";
+import OwnerDashboard from "./pages/dashboard/OwnerDashboard";
+import PublicDesignerProfile from "./pages/dashboard/PublicDesignerProfile";
+import PublicOwnerProfile from "./pages/dashboard/PublicOwnerProfile";
 
 const queryClient = new QueryClient();
 
@@ -34,6 +39,12 @@ const App = () => (
           <Route path="/property/:id" element={<PropertyDetail />} />
           <Route path="/add-property" element={<AddProperty />} />
           <Route path="/auth" element={<Auth />} />
+          {/* Dashboard Routes */}
+          <Route path="/dashboard/designer/*" element={<DesignerDashboard />} />
+          <Route path="/dashboard/customer/*" element={<CustomerDashboard />} />
+          <Route path="/dashboard/owner/*" element={<OwnerDashboard />} />
+          <Route path="/profile/designer/:id" element={<PublicDesignerProfile />} />
+          <Route path="/profile/owner/:id" element={<PublicOwnerProfile />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
