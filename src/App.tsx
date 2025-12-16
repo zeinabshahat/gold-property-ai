@@ -22,6 +22,8 @@ import PublicOwnerProfile from "./pages/dashboard/PublicOwnerProfile";
 import DesignersMarketplace from "./pages/dashboard/DesignersMarketplace";
 import SubmitDesignOffer from "./pages/dashboard/SubmitDesignOffer";
 import AIPropertyAssistant from "./pages/dashboard/AIPropertyAssistant";
+import AvailableProjects from "./pages/dashboard/AvailableProjects";
+import ProjectDetails from "./pages/dashboard/ProjectDetails";
 
 const queryClient = new QueryClient();
 
@@ -43,8 +45,15 @@ const App = () => (
           <Route path="/add-property" element={<AddProperty />} />
           <Route path="/auth" element={<Auth />} />
           {/* Dashboard Routes */}
+          <Route path="/dashboard/designer" element={<DesignerDashboard />} />
           <Route path="/dashboard/designer/*" element={<DesignerDashboard />} />
+          <Route path="/dashboard/designer/available-projects" element={<AvailableProjects />} />
+          <Route path="/dashboard/designer/project/:id" element={<ProjectDetails />} />
+          <Route path="/dashboard/customer" element={<CustomerDashboard />} />
           <Route path="/dashboard/customer/*" element={<CustomerDashboard />} />
+          <Route path="/dashboard/customer/designers-marketplace" element={<DesignersMarketplace />} />
+          <Route path="/dashboard/customer/submit-design-offer" element={<SubmitDesignOffer />} />
+          <Route path="/dashboard/customer/ai-assistant" element={<AIPropertyAssistant />} />
           <Route path="/dashboard/owner" element={<OwnerDashboard />} />
           <Route path="/dashboard/owner/designers-marketplace" element={<DesignersMarketplace />} />
           <Route path="/dashboard/owner/submit-design-offer" element={<SubmitDesignOffer />} />
