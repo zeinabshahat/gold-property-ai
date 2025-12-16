@@ -16,8 +16,12 @@ import {
   TrendingUp, 
   DollarSign,
   Lightbulb,
-  Loader2
+  Loader2,
+  Mic,
+  MicOff,
+  Square
 } from "lucide-react";
+import { useLocation } from "react-router-dom";
 
 interface Message {
   id: string;
@@ -39,7 +43,7 @@ const initialMessages: Message[] = [
   {
     id: "1",
     role: "ai",
-    content: "Hello! I'm your AI Property Enhancement Assistant. 🏠✨\n\nUpload photos or a 360° video of your property, and I'll analyze it to suggest renovations that can significantly increase its market value.\n\nYou can also describe specific areas you'd like to improve!",
+    content: "Hello! I'm your AI Renovation Assistant. 🏠✨\n\nUpload photos, a 360° video, or record a voice message describing your apartment, and I'll suggest renovations that can increase its market value.\n\nYou can also type specific questions about improvements you'd like to make!",
   },
 ];
 
@@ -68,17 +72,47 @@ const mockSuggestions: Suggestion[] = [
 ];
 
 const AIPropertyAssistant = () => {
+  const location = useLocation();
+  const isCustomerView = location.pathname.includes("/customer/");
+  
   const [messages, setMessages] = useState<Message[]>(initialMessages);
   const [inputValue, setInputValue] = useState("");
   const [isTyping, setIsTyping] = useState(false);
+  const [isRecording, setIsRecording] = useState(false);
+  const [recordingTime, setRecordingTime] = useState(0);
   const scrollRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const recordingIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
   }, [messages]);
+
+  useEffect(() => {
+    if (isRecording) {
+      recordingIntervalRef.current = setInterval(() => {
+        setRecordingTime((prev) => prev + 1);
+      }, 1000);
+    } else {
+      if (recordingIntervalRef.current) {
+        clearInterval(recordingIntervalRef.current);
+      }
+      setRecordingTime(0);
+    }
+    return () => {
+      if (recordingIntervalRef.current) {
+        clearInterval(recordingIntervalRef.current);
+      }
+    };
+  }, [isRecording]);
+
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
+  };
 
   const handleSend = () => {
     if (!inputValue.trim()) return;
@@ -130,29 +164,58 @@ const AIPropertyAssistant = () => {
     }, 3000);
   };
 
+  const handleVoiceRecord = () => {
+    if (isRecording) {
+      // Stop recording and simulate transcription
+      setIsRecording(false);
+      
+      const userMessage: Message = {
+        id: Date.now().toString(),
+        role: "user",
+        content: `🎤 Voice message (${formatTime(recordingTime)}): "I have a 120 sqm apartment with outdated kitchen and bathroom. Looking for renovation ideas to increase value before selling."`,
+      };
+
+      setMessages((prev) => [...prev, userMessage]);
+      setIsTyping(true);
+
+      setTimeout(() => {
+        const aiResponse: Message = {
+          id: (Date.now() + 1).toString(),
+          role: "ai",
+          content: "I've transcribed and analyzed your voice description. For a 120 sqm apartment with outdated kitchen and bathroom, here are my strategic renovation recommendations to maximize your sale price:",
+          suggestions: mockSuggestions,
+        };
+        setMessages((prev) => [...prev, aiResponse]);
+        setIsTyping(false);
+      }, 2500);
+    } else {
+      setIsRecording(true);
+    }
+  };
+
   const getIconForSuggestion = (icon: string) => {
     switch (icon) {
       case "renovation":
-        return <Sparkles className="h-5 w-5 text-[#DCC288]" />;
+        return <Sparkles className="h-5 w-5 text-accent" />;
       case "value":
         return <TrendingUp className="h-5 w-5 text-green-500" />;
       case "design":
         return <Lightbulb className="h-5 w-5 text-blue-500" />;
       default:
-        return <Sparkles className="h-5 w-5 text-[#DCC288]" />;
+        return <Sparkles className="h-5 w-5 text-accent" />;
     }
   };
 
   return (
-    <DashboardLayout role="owner" userName="Property Owner">
+    <DashboardLayout role={isCustomerView ? "customer" : "owner"} userName={isCustomerView ? "Ahmed Hassan" : "Property Owner"}>
       <div className="h-[calc(100vh-8rem)] flex flex-col">
         {/* Header */}
         <div className="flex items-center gap-3 mb-4">
-          <div className="p-2 rounded-lg bg-gradient-to-br from-[#001C38] to-[#001C38]/80">
-            <Bot className="h-6 w-6 text-[#DCC288]" />
+          <div className="p-2 rounded-lg bg-gradient-to-br from-primary to-primary/80">
+            <Bot className="h-6 w-6 text-accent" />
           </div>
           <div>
-            <h1 className="text-xl lg:text-2xl font-bold text-foreground">AI Property Enhancement</h1>
+            <h1 className="text-xl lg:text-2xl font-bold text-foreground">AI Renovation Assistant</h1>
             <p className="text-sm text-muted-foreground">Get smart renovation suggestions to increase property value</p>
           </div>
         </div>
@@ -167,8 +230,8 @@ const AIPropertyAssistant = () => {
                   className={`flex gap-3 ${message.role === "user" ? "justify-end" : "justify-start"}`}
                 >
                   {message.role === "ai" && (
-                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-[#001C38] to-[#001C38]/80 flex items-center justify-center">
-                      <Bot className="h-4 w-4 text-[#DCC288]" />
+                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center">
+                      <Bot className="h-4 w-4 text-accent" />
                     </div>
                   )}
                   
@@ -176,7 +239,7 @@ const AIPropertyAssistant = () => {
                     <div
                       className={`rounded-2xl px-4 py-3 ${
                         message.role === "user"
-                          ? "bg-[#001C38] text-white rounded-br-sm"
+                          ? "bg-primary text-primary-foreground rounded-br-sm"
                           : "bg-muted rounded-bl-sm"
                       }`}
                     >
@@ -201,7 +264,7 @@ const AIPropertyAssistant = () => {
                                       <TrendingUp className="h-3 w-3 mr-1" />
                                       {suggestion.impact}
                                     </Badge>
-                                    <Badge variant="outline" className="border-[#DCC288] text-[#001C38]">
+                                    <Badge variant="outline" className="border-accent text-primary">
                                       <DollarSign className="h-3 w-3 mr-1" />
                                       {suggestion.costRange}
                                     </Badge>
@@ -216,8 +279,8 @@ const AIPropertyAssistant = () => {
                   </div>
 
                   {message.role === "user" && (
-                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-[#DCC288] flex items-center justify-center">
-                      <User className="h-4 w-4 text-[#001C38]" />
+                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-accent flex items-center justify-center">
+                      <User className="h-4 w-4 text-primary" />
                     </div>
                   )}
                 </div>
@@ -226,8 +289,8 @@ const AIPropertyAssistant = () => {
               {/* Typing Indicator */}
               {isTyping && (
                 <div className="flex gap-3 items-start">
-                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-[#001C38] to-[#001C38]/80 flex items-center justify-center">
-                    <Bot className="h-4 w-4 text-[#DCC288]" />
+                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center">
+                    <Bot className="h-4 w-4 text-accent" />
                   </div>
                   <div className="bg-muted rounded-2xl rounded-bl-sm px-4 py-3">
                     <div className="flex items-center gap-2">
@@ -242,8 +305,8 @@ const AIPropertyAssistant = () => {
 
           {/* Input Area */}
           <div className="border-t p-4">
-            {/* Upload Options */}
-            <div className="flex gap-2 mb-3">
+            {/* Upload & Voice Options */}
+            <div className="flex flex-wrap gap-2 mb-3">
               <Button
                 variant="outline"
                 size="sm"
@@ -262,7 +325,35 @@ const AIPropertyAssistant = () => {
                 <Video className="h-4 w-4 mr-2" />
                 Upload 360° Video
               </Button>
+              <Button
+                variant={isRecording ? "destructive" : "outline"}
+                size="sm"
+                onClick={handleVoiceRecord}
+                className={`text-sm ${isRecording ? "animate-pulse" : ""}`}
+              >
+                {isRecording ? (
+                  <>
+                    <Square className="h-4 w-4 mr-2" />
+                    Stop Recording ({formatTime(recordingTime)})
+                  </>
+                ) : (
+                  <>
+                    <Mic className="h-4 w-4 mr-2" />
+                    Voice Message
+                  </>
+                )}
+              </Button>
             </div>
+
+            {/* Recording Indicator */}
+            {isRecording && (
+              <div className="mb-3 p-3 bg-destructive/10 border border-destructive/30 rounded-lg flex items-center gap-3">
+                <div className="w-3 h-3 bg-destructive rounded-full animate-pulse" />
+                <span className="text-sm text-destructive font-medium">
+                  Recording... Describe your apartment and renovation goals
+                </span>
+              </div>
+            )}
 
             {/* Message Input */}
             <div className="flex gap-2">
@@ -272,11 +363,12 @@ const AIPropertyAssistant = () => {
                 onChange={(e) => setInputValue(e.target.value)}
                 onKeyPress={(e) => e.key === "Enter" && handleSend()}
                 className="flex-1"
+                disabled={isRecording}
               />
               <Button 
                 onClick={handleSend}
-                disabled={!inputValue.trim() || isTyping}
-                className="bg-[#001C38] hover:bg-[#001C38]/90 text-white"
+                disabled={!inputValue.trim() || isTyping || isRecording}
+                className="bg-primary hover:bg-primary/90 text-primary-foreground"
               >
                 <Send className="h-4 w-4" />
               </Button>

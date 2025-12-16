@@ -37,6 +37,7 @@ interface SidebarItem {
 const sidebarItems: Record<UserRole, SidebarItem[]> = {
   designer: [
     { icon: LayoutDashboard, label: "Overview", href: "/dashboard/designer" },
+    { icon: Briefcase, label: "Available Projects", href: "/dashboard/designer/available-projects" },
     { icon: FileText, label: "My Proposals", href: "/dashboard/designer/proposals" },
     { icon: Briefcase, label: "Active Projects", href: "/dashboard/designer/projects" },
     { icon: CheckCircle, label: "Completed Projects", href: "/dashboard/designer/completed" },

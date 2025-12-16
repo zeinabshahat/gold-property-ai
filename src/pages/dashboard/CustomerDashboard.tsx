@@ -21,6 +21,9 @@ import {
   TrendingUp,
   DollarSign,
   BarChart3,
+  Sparkles,
+  Users,
+  FileText,
 } from "lucide-react";
 
 const mockProperties = [
@@ -90,6 +93,45 @@ export const CustomerDashboard = () => {
           <StatCard icon={Heart} label="Saved Properties" value={12} />
           <StatCard icon={MessageSquare} label="Active Requests" value={2} />
         </div>
+
+        {/* Enhancement Actions */}
+        <Card className="border-accent/30 bg-gradient-to-r from-primary/5 to-accent/5">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Sparkles className="h-5 w-5 text-accent" />
+              Enhance Your Space
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-muted-foreground mb-6">
+              Get professional design help or AI-powered renovation suggestions for your apartment.
+            </p>
+            <div className="grid sm:grid-cols-3 gap-4">
+              <Button 
+                className="h-auto py-4 flex flex-col items-center gap-2 bg-primary hover:bg-primary/90"
+                onClick={() => window.location.href = '/dashboard/customer/designers-marketplace'}
+              >
+                <Users className="h-6 w-6" />
+                <span>Browse Designers</span>
+              </Button>
+              <Button 
+                variant="outline"
+                className="h-auto py-4 flex flex-col items-center gap-2 border-accent text-foreground hover:bg-accent/10"
+                onClick={() => window.location.href = '/dashboard/customer/submit-design-offer'}
+              >
+                <FileText className="h-6 w-6" />
+                <span>Post Design Request</span>
+              </Button>
+              <Button 
+                className="h-auto py-4 flex flex-col items-center gap-2 gradient-gold text-primary"
+                onClick={() => window.location.href = '/dashboard/customer/ai-assistant'}
+              >
+                <Sparkles className="h-6 w-6" />
+                <span>Improve with AI</span>
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
 
         {/* My Properties */}
         <Card className="border-border">
