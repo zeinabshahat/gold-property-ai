@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useNavigate } from "react-router-dom";
 import {
   Home,
   Calendar,
@@ -23,6 +24,9 @@ import {
   TrendingUp,
   TrendingDown,
   ArrowUpRight,
+  Palette,
+  FileText,
+  Bot,
 } from "lucide-react";
 
 const mockListings = [
@@ -49,6 +53,8 @@ const mockReviews = [
 ];
 
 export const OwnerDashboard = () => {
+  const navigate = useNavigate();
+  
   return (
     <DashboardLayout
       role="owner"
@@ -62,11 +68,49 @@ export const OwnerDashboard = () => {
             <h1 className="text-2xl font-bold text-foreground">Welcome back, Mohamed!</h1>
             <p className="text-muted-foreground">Manage your property portfolio</p>
           </div>
-          <Button className="gradient-gold text-primary">
+          <Button className="gradient-gold text-primary" onClick={() => navigate("/add-property")}>
             <Plus className="h-4 w-4 mr-2" />
             Add New Property
           </Button>
         </div>
+
+        {/* Property Enhancement Actions */}
+        <Card className="border-border bg-gradient-to-r from-[#001C38]/5 to-[#DCC288]/10">
+          <CardHeader>
+            <CardTitle className="text-lg">Enhance Your Properties</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid sm:grid-cols-3 gap-4">
+              <Button 
+                variant="outline" 
+                className="h-auto py-4 flex flex-col items-center gap-2 hover:border-[#DCC288] hover:bg-[#DCC288]/10"
+                onClick={() => navigate("/dashboard/owner/designers-marketplace")}
+              >
+                <Palette className="h-6 w-6 text-[#DCC288]" />
+                <span className="font-medium">Hire a Designer</span>
+                <span className="text-xs text-muted-foreground">Browse marketplace</span>
+              </Button>
+              <Button 
+                variant="outline" 
+                className="h-auto py-4 flex flex-col items-center gap-2 hover:border-[#DCC288] hover:bg-[#DCC288]/10"
+                onClick={() => navigate("/dashboard/owner/submit-design-offer")}
+              >
+                <FileText className="h-6 w-6 text-[#DCC288]" />
+                <span className="font-medium">Post Design Request</span>
+                <span className="text-xs text-muted-foreground">Get proposals</span>
+              </Button>
+              <Button 
+                variant="outline" 
+                className="h-auto py-4 flex flex-col items-center gap-2 hover:border-[#DCC288] hover:bg-[#DCC288]/10"
+                onClick={() => navigate("/dashboard/owner/ai-assistant")}
+              >
+                <Bot className="h-6 w-6 text-[#DCC288]" />
+                <span className="font-medium">Improve with AI</span>
+                <span className="text-xs text-muted-foreground">Smart suggestions</span>
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
 
         {/* Stats Overview */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">

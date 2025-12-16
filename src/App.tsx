@@ -19,6 +19,9 @@ import CustomerDashboard from "./pages/dashboard/CustomerDashboard";
 import OwnerDashboard from "./pages/dashboard/OwnerDashboard";
 import PublicDesignerProfile from "./pages/dashboard/PublicDesignerProfile";
 import PublicOwnerProfile from "./pages/dashboard/PublicOwnerProfile";
+import DesignersMarketplace from "./pages/dashboard/DesignersMarketplace";
+import SubmitDesignOffer from "./pages/dashboard/SubmitDesignOffer";
+import AIPropertyAssistant from "./pages/dashboard/AIPropertyAssistant";
 
 const queryClient = new QueryClient();
 
@@ -42,7 +45,10 @@ const App = () => (
           {/* Dashboard Routes */}
           <Route path="/dashboard/designer/*" element={<DesignerDashboard />} />
           <Route path="/dashboard/customer/*" element={<CustomerDashboard />} />
-          <Route path="/dashboard/owner/*" element={<OwnerDashboard />} />
+          <Route path="/dashboard/owner" element={<OwnerDashboard />} />
+          <Route path="/dashboard/owner/designers-marketplace" element={<DesignersMarketplace />} />
+          <Route path="/dashboard/owner/submit-design-offer" element={<SubmitDesignOffer />} />
+          <Route path="/dashboard/owner/ai-assistant" element={<AIPropertyAssistant />} />
           <Route path="/profile/designer/:id" element={<PublicDesignerProfile />} />
           <Route path="/profile/owner/:id" element={<PublicOwnerProfile />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
