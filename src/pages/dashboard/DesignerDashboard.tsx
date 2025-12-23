@@ -18,7 +18,15 @@ import {
   Eye,
   Plus,
   TrendingUp,
+  MapPin,
+  Mail,
+  Phone,
+  Globe,
+  Edit,
+  Award,
+  Users,
 } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const mockProposals = [
   { id: 1, title: "Modern Villa Interior", client: "Ahmed Hassan", price: "$12,500", status: "pending" },
@@ -30,6 +38,25 @@ const mockProjects = [
   { id: 1, name: "Luxury Penthouse", client: "Omar Khalil", progress: 75, deadline: "Dec 25, 2024" },
   { id: 2, name: "Beach House Design", client: "Layla Ibrahim", progress: 40, deadline: "Jan 10, 2025" },
 ];
+
+const designerProfile = {
+  name: "Nadia El-Sayed",
+  title: "Senior Interior Designer",
+  avatar: "/placeholder.svg",
+  location: "Cairo, Egypt",
+  email: "nadia@designer.com",
+  phone: "+20 100 123 4567",
+  website: "www.nadiadesigns.com",
+  bio: "Award-winning interior designer with 8+ years of experience specializing in luxury residential and commercial spaces. Passionate about creating functional, beautiful environments that reflect each client's unique personality.",
+  specializations: ["Luxury Residential", "Modern Minimalist", "Commercial Spaces", "Renovation"],
+  stats: {
+    rating: 4.9,
+    reviews: 127,
+    projects: 85,
+    yearsExperience: 8,
+  },
+  certifications: ["NCIDQ Certified", "LEED AP", "ASID Member"],
+};
 
 const mockPortfolio = [
   { id: 1, title: "Contemporary Living Room", category: "Residential", image: "/placeholder.svg" },
@@ -46,6 +73,115 @@ export const DesignerDashboard = () => {
       userEmail="nadia@designer.com"
     >
       <div className="space-y-8">
+        {/* Designer Profile Card */}
+        <Card className="border-border overflow-hidden">
+          <div className="h-24 gradient-navy" />
+          <CardContent className="relative pt-0 pb-6">
+            <div className="flex flex-col lg:flex-row gap-6">
+              {/* Avatar */}
+              <div className="-mt-12 lg:-mt-10">
+                <Avatar className="h-24 w-24 border-4 border-background shadow-lg">
+                  <AvatarImage src={designerProfile.avatar} alt={designerProfile.name} />
+                  <AvatarFallback className="text-2xl bg-accent text-accent-foreground">
+                    {designerProfile.name.split(' ').map(n => n[0]).join('')}
+                  </AvatarFallback>
+                </Avatar>
+              </div>
+
+              {/* Profile Info */}
+              <div className="flex-1 space-y-4">
+                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <h2 className="text-2xl font-bold text-foreground">{designerProfile.name}</h2>
+                      <Badge className="bg-accent/10 text-accent border-accent/30">
+                        <Award className="h-3 w-3 mr-1" />
+                        Verified
+                      </Badge>
+                    </div>
+                    <p className="text-muted-foreground">{designerProfile.title}</p>
+                    <div className="flex items-center gap-1 mt-1 text-sm text-muted-foreground">
+                      <MapPin className="h-4 w-4" />
+                      {designerProfile.location}
+                    </div>
+                  </div>
+                  <Button variant="outline" size="sm">
+                    <Edit className="h-4 w-4 mr-2" />
+                    Edit Profile
+                  </Button>
+                </div>
+
+                {/* Bio */}
+                <p className="text-sm text-muted-foreground leading-relaxed max-w-3xl">
+                  {designerProfile.bio}
+                </p>
+
+                {/* Contact Info */}
+                <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
+                  <div className="flex items-center gap-1">
+                    <Mail className="h-4 w-4" />
+                    {designerProfile.email}
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <Phone className="h-4 w-4" />
+                    {designerProfile.phone}
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <Globe className="h-4 w-4" />
+                    {designerProfile.website}
+                  </div>
+                </div>
+
+                {/* Specializations */}
+                <div className="flex flex-wrap gap-2">
+                  {designerProfile.specializations.map((spec) => (
+                    <Badge key={spec} variant="secondary" className="text-xs">
+                      {spec}
+                    </Badge>
+                  ))}
+                </div>
+
+                {/* Profile Stats */}
+                <div className="flex flex-wrap gap-6 pt-2">
+                  <div className="flex items-center gap-2">
+                    <div className="flex items-center text-amber-500">
+                      <Star className="h-5 w-5 fill-current" />
+                    </div>
+                    <div>
+                      <span className="font-bold text-foreground">{designerProfile.stats.rating}</span>
+                      <span className="text-sm text-muted-foreground ml-1">({designerProfile.stats.reviews} reviews)</span>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Briefcase className="h-5 w-5 text-accent" />
+                    <div>
+                      <span className="font-bold text-foreground">{designerProfile.stats.projects}</span>
+                      <span className="text-sm text-muted-foreground ml-1">Projects</span>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Users className="h-5 w-5 text-accent" />
+                    <div>
+                      <span className="font-bold text-foreground">{designerProfile.stats.yearsExperience}+</span>
+                      <span className="text-sm text-muted-foreground ml-1">Years Experience</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Certifications */}
+                <div className="flex flex-wrap gap-2 pt-2">
+                  {designerProfile.certifications.map((cert) => (
+                    <Badge key={cert} variant="outline" className="text-xs bg-green-500/10 text-green-600 border-green-500/30">
+                      <CheckCircle className="h-3 w-3 mr-1" />
+                      {cert}
+                    </Badge>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
         {/* Header */}
         <div>
           <h1 className="text-2xl font-bold text-foreground">Welcome back, Nadia!</h1>
