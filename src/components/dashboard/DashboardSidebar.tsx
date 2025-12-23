@@ -24,6 +24,7 @@ import {
   X,
   Sparkles,
   Calculator,
+  UserCircle,
 } from "lucide-react";
 
 type UserRole = "designer" | "customer" | "owner";
@@ -37,6 +38,7 @@ interface SidebarItem {
 const sidebarItems: Record<UserRole, SidebarItem[]> = {
   designer: [
     { icon: LayoutDashboard, label: "Overview", href: "/dashboard/designer" },
+    { icon: UserCircle, label: "My Profile", href: "/dashboard/designer/profile" },
     { icon: Briefcase, label: "Available Projects", href: "/dashboard/designer/available-projects" },
     { icon: FileText, label: "My Proposals", href: "/dashboard/designer/proposals" },
     { icon: Briefcase, label: "Active Projects", href: "/dashboard/designer/projects" },
