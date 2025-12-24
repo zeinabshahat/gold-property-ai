@@ -15,6 +15,7 @@ import AddProperty from "./pages/AddProperty";
 import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
 import DesignerDashboard from "./pages/dashboard/DesignerDashboard";
+import EditDesignerProfile from "./pages/dashboard/EditDesignerProfile";
 import CustomerDashboard from "./pages/dashboard/CustomerDashboard";
 import OwnerDashboard from "./pages/dashboard/OwnerDashboard";
 import PublicDesignerProfile from "./pages/dashboard/PublicDesignerProfile";
@@ -46,6 +47,7 @@ const App = () => (
           <Route path="/auth" element={<Auth />} />
           {/* Dashboard Routes */}
           <Route path="/dashboard/designer" element={<DesignerDashboard />} />
+          <Route path="/dashboard/designer/edit-profile" element={<EditDesignerProfile />} />
           <Route path="/dashboard/designer/*" element={<DesignerDashboard />} />
           <Route path="/dashboard/designer/available-projects" element={<AvailableProjects />} />
           <Route path="/dashboard/designer/project/:id" element={<ProjectDetails />} />
