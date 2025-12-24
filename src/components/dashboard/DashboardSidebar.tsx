@@ -5,9 +5,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
   LayoutDashboard,
-  FileText,
   Briefcase,
-  CheckCircle,
   Image,
   Wallet,
   Star,
@@ -19,7 +17,6 @@ import {
   CreditCard,
   Users,
   TrendingUp,
-  LogOut,
   Menu,
   X,
   Sparkles,
@@ -36,19 +33,16 @@ interface SidebarItem {
 
 const sidebarItems: Record<UserRole, SidebarItem[]> = {
   designer: [
-    { icon: LayoutDashboard, label: "Overview", href: "/dashboard/designer" },
-    { icon: Briefcase, label: "Available Projects", href: "/dashboard/designer/available-projects" },
-    { icon: FileText, label: "My Proposals", href: "/dashboard/designer/proposals" },
-    { icon: Briefcase, label: "Active Projects", href: "/dashboard/designer/projects" },
-    { icon: CheckCircle, label: "Completed Projects", href: "/dashboard/designer/completed" },
-    { icon: Image, label: "Portfolio Manager", href: "/dashboard/designer/portfolio" },
+    { icon: LayoutDashboard, label: "Dashboard", href: "/dashboard/designer" },
+    { icon: Briefcase, label: "Projects", href: "/dashboard/designer/projects" },
+    { icon: Image, label: "Portfolio", href: "/dashboard/designer/portfolio" },
     { icon: Wallet, label: "Wallet & Earnings", href: "/dashboard/designer/wallet" },
     { icon: Star, label: "Reviews", href: "/dashboard/designer/reviews" },
     { icon: Sparkles, label: "AI Insights", href: "/dashboard/designer/insights" },
     { icon: Settings, label: "Settings", href: "/dashboard/designer/settings" },
   ],
   customer: [
-    { icon: LayoutDashboard, label: "My Profile", href: "/dashboard/customer" },
+    { icon: LayoutDashboard, label: "Dashboard", href: "/dashboard/customer" },
     { icon: Home, label: "My Properties", href: "/dashboard/customer/properties" },
     { icon: Calendar, label: "My Bookings", href: "/dashboard/customer/bookings" },
     { icon: Heart, label: "Saved Properties", href: "/dashboard/customer/saved" },
@@ -59,7 +53,7 @@ const sidebarItems: Record<UserRole, SidebarItem[]> = {
     { icon: Settings, label: "Settings", href: "/dashboard/customer/settings" },
   ],
   owner: [
-    { icon: LayoutDashboard, label: "Overview", href: "/dashboard/owner" },
+    { icon: LayoutDashboard, label: "Dashboard", href: "/dashboard/owner" },
     { icon: Home, label: "My Listings", href: "/dashboard/owner/listings" },
     { icon: Calendar, label: "Bookings", href: "/dashboard/owner/bookings" },
     { icon: Users, label: "Tenants / Buyers", href: "/dashboard/owner/tenants" },
@@ -157,17 +151,6 @@ export const DashboardSidebar = ({
             })}
           </ul>
         </nav>
-
-        {/* Logout */}
-        <div className="p-4 border-t border-border">
-          <Button
-            variant="ghost"
-            className="w-full justify-start gap-3 text-muted-foreground hover:text-destructive hover:bg-destructive/10"
-          >
-            <LogOut className="h-5 w-5" />
-            Sign Out
-          </Button>
-        </div>
       </aside>
     </>
   );

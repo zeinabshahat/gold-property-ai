@@ -1,7 +1,6 @@
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import { StatCard } from "@/components/dashboard/StatCard";
-import { InvestmentInsights } from "@/components/dashboard/InvestmentInsights";
-import { RenovationSimulator } from "@/components/dashboard/RenovationSimulator";
+import { DesignerProfileCard, DesignerProfile } from "@/components/dashboard/DesignerProfileCard";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -12,21 +11,12 @@ import {
   Briefcase,
   CheckCircle,
   Star,
-  DollarSign,
-  Image,
   Clock,
   Eye,
   Plus,
   TrendingUp,
-  MapPin,
-  Mail,
-  Phone,
-  Globe,
-  Edit,
-  Award,
-  Users,
+  Image,
 } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const mockProposals = [
   { id: 1, title: "Modern Villa Interior", client: "Ahmed Hassan", price: "$12,500", status: "pending" },
@@ -35,11 +25,13 @@ const mockProposals = [
 ];
 
 const mockProjects = [
-  { id: 1, name: "Luxury Penthouse", client: "Omar Khalil", progress: 75, deadline: "Dec 25, 2024" },
-  { id: 2, name: "Beach House Design", client: "Layla Ibrahim", progress: 40, deadline: "Jan 10, 2025" },
+  { id: 1, name: "Luxury Penthouse", client: "Omar Khalil", progress: 75, deadline: "Dec 25, 2024", status: "active" },
+  { id: 2, name: "Beach House Design", client: "Layla Ibrahim", progress: 40, deadline: "Jan 10, 2025", status: "active" },
+  { id: 3, name: "Downtown Apartment", client: "Hassan Fathy", progress: 100, deadline: "Nov 15, 2024", status: "completed" },
+  { id: 4, name: "Office Renovation", client: "Amira Nour", progress: 100, deadline: "Oct 20, 2024", status: "completed" },
 ];
 
-const designerProfile = {
+const designerProfile: DesignerProfile = {
   name: "Nadia El-Sayed",
   title: "Senior Interior Designer",
   avatar: "/placeholder.svg",
@@ -73,114 +65,8 @@ export const DesignerDashboard = () => {
       userEmail="nadia@designer.com"
     >
       <div className="space-y-8">
-        {/* Designer Profile Card */}
-        <Card className="border-border overflow-hidden">
-          <div className="h-24 gradient-navy" />
-          <CardContent className="relative pt-0 pb-6">
-            <div className="flex flex-col lg:flex-row gap-6">
-              {/* Avatar */}
-              <div className="-mt-12 lg:-mt-10">
-                <Avatar className="h-24 w-24 border-4 border-background shadow-lg">
-                  <AvatarImage src={designerProfile.avatar} alt={designerProfile.name} />
-                  <AvatarFallback className="text-2xl bg-accent text-accent-foreground">
-                    {designerProfile.name.split(' ').map(n => n[0]).join('')}
-                  </AvatarFallback>
-                </Avatar>
-              </div>
-
-              {/* Profile Info */}
-              <div className="flex-1 space-y-4">
-                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <h2 className="text-2xl font-bold text-foreground">{designerProfile.name}</h2>
-                      <Badge className="bg-accent/10 text-accent border-accent/30">
-                        <Award className="h-3 w-3 mr-1" />
-                        Verified
-                      </Badge>
-                    </div>
-                    <p className="text-muted-foreground">{designerProfile.title}</p>
-                    <div className="flex items-center gap-1 mt-1 text-sm text-muted-foreground">
-                      <MapPin className="h-4 w-4" />
-                      {designerProfile.location}
-                    </div>
-                  </div>
-                  <Button variant="outline" size="sm">
-                    <Edit className="h-4 w-4 mr-2" />
-                    Edit Profile
-                  </Button>
-                </div>
-
-                {/* Bio */}
-                <p className="text-sm text-muted-foreground leading-relaxed max-w-3xl">
-                  {designerProfile.bio}
-                </p>
-
-                {/* Contact Info */}
-                <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
-                  <div className="flex items-center gap-1">
-                    <Mail className="h-4 w-4" />
-                    {designerProfile.email}
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <Phone className="h-4 w-4" />
-                    {designerProfile.phone}
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <Globe className="h-4 w-4" />
-                    {designerProfile.website}
-                  </div>
-                </div>
-
-                {/* Specializations */}
-                <div className="flex flex-wrap gap-2">
-                  {designerProfile.specializations.map((spec) => (
-                    <Badge key={spec} variant="secondary" className="text-xs">
-                      {spec}
-                    </Badge>
-                  ))}
-                </div>
-
-                {/* Profile Stats */}
-                <div className="flex flex-wrap gap-6 pt-2">
-                  <div className="flex items-center gap-2">
-                    <div className="flex items-center text-amber-500">
-                      <Star className="h-5 w-5 fill-current" />
-                    </div>
-                    <div>
-                      <span className="font-bold text-foreground">{designerProfile.stats.rating}</span>
-                      <span className="text-sm text-muted-foreground ml-1">({designerProfile.stats.reviews} reviews)</span>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Briefcase className="h-5 w-5 text-accent" />
-                    <div>
-                      <span className="font-bold text-foreground">{designerProfile.stats.projects}</span>
-                      <span className="text-sm text-muted-foreground ml-1">Projects</span>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Users className="h-5 w-5 text-accent" />
-                    <div>
-                      <span className="font-bold text-foreground">{designerProfile.stats.yearsExperience}+</span>
-                      <span className="text-sm text-muted-foreground ml-1">Years Experience</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Certifications */}
-                <div className="flex flex-wrap gap-2 pt-2">
-                  {designerProfile.certifications.map((cert) => (
-                    <Badge key={cert} variant="outline" className="text-xs bg-green-500/10 text-green-600 border-green-500/30">
-                      <CheckCircle className="h-3 w-3 mr-1" />
-                      {cert}
-                    </Badge>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+        {/* Designer Profile Card - Shared Component */}
+        <DesignerProfileCard profile={designerProfile} showEditButton={true} />
 
         {/* Header */}
         <div>
@@ -310,37 +196,70 @@ export const DesignerDashboard = () => {
           </CardContent>
         </Card>
 
-        {/* Active Projects */}
+        {/* Projects - Unified with status filters */}
         <Card className="border-border">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Briefcase className="h-5 w-5 text-accent" />
-              Active Projects
+              Projects
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4">
-            {mockProjects.map((project) => (
-              <div key={project.id} className="p-4 border border-border rounded-lg">
-                <div className="flex items-start justify-between mb-3">
-                  <div>
-                    <p className="font-medium text-foreground">{project.name}</p>
-                    <p className="text-sm text-muted-foreground">Client: {project.client}</p>
-                  </div>
-                  <Badge variant="outline">{project.deadline}</Badge>
-                </div>
-                <div className="space-y-2">
-                  <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Progress</span>
-                    <span className="font-medium text-foreground">{project.progress}%</span>
-                  </div>
-                  <Progress value={project.progress} className="h-2" />
-                </div>
-                <Button variant="outline" size="sm" className="mt-3">
-                  <Eye className="h-4 w-4 mr-2" />
-                  View Details
-                </Button>
-              </div>
-            ))}
+          <CardContent>
+            <Tabs defaultValue="active">
+              <TabsList className="mb-4">
+                <TabsTrigger value="active">Active</TabsTrigger>
+                <TabsTrigger value="completed">Completed</TabsTrigger>
+              </TabsList>
+              <TabsContent value="active" className="space-y-4">
+                {mockProjects
+                  .filter((p) => p.status === "active")
+                  .map((project) => (
+                    <div key={project.id} className="p-4 border border-border rounded-lg">
+                      <div className="flex items-start justify-between mb-3">
+                        <div>
+                          <p className="font-medium text-foreground">{project.name}</p>
+                          <p className="text-sm text-muted-foreground">Client: {project.client}</p>
+                        </div>
+                        <Badge variant="outline">{project.deadline}</Badge>
+                      </div>
+                      <div className="space-y-2">
+                        <div className="flex justify-between text-sm">
+                          <span className="text-muted-foreground">Progress</span>
+                          <span className="font-medium text-foreground">{project.progress}%</span>
+                        </div>
+                        <Progress value={project.progress} className="h-2" />
+                      </div>
+                      <Button variant="outline" size="sm" className="mt-3">
+                        <Eye className="h-4 w-4 mr-2" />
+                        View Details
+                      </Button>
+                    </div>
+                  ))}
+              </TabsContent>
+              <TabsContent value="completed" className="space-y-4">
+                {mockProjects
+                  .filter((p) => p.status === "completed")
+                  .map((project) => (
+                    <div key={project.id} className="p-4 border border-border rounded-lg">
+                      <div className="flex items-start justify-between mb-3">
+                        <div>
+                          <p className="font-medium text-foreground">{project.name}</p>
+                          <p className="text-sm text-muted-foreground">Client: {project.client}</p>
+                        </div>
+                        <Badge className="bg-green-500/10 text-green-600 border-green-500/30">
+                          <CheckCircle className="h-3 w-3 mr-1" />
+                          Completed
+                        </Badge>
+                      </div>
+                      <p className="text-sm text-muted-foreground">Completed: {project.deadline}</p>
+                      <Button variant="outline" size="sm" className="mt-3">
+                        <Eye className="h-4 w-4 mr-2" />
+                        View Details
+                      </Button>
+                    </div>
+                  ))}
+              </TabsContent>
+            </Tabs>
           </CardContent>
         </Card>
 
@@ -349,7 +268,7 @@ export const DesignerDashboard = () => {
           <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle className="flex items-center gap-2">
               <Image className="h-5 w-5 text-accent" />
-              Portfolio Manager
+              Portfolio
             </CardTitle>
             <Button size="sm" className="gradient-gold text-primary">
               <Plus className="h-4 w-4 mr-2" />
@@ -405,9 +324,6 @@ export const DesignerDashboard = () => {
             </div>
           </CardContent>
         </Card>
-
-        {/* Investment Insights */}
-        <InvestmentInsights />
       </div>
     </DashboardLayout>
   );
