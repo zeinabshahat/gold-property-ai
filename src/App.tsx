@@ -24,7 +24,6 @@ import SubmitDesignOffer from "./pages/dashboard/SubmitDesignOffer";
 import AIPropertyAssistant from "./pages/dashboard/AIPropertyAssistant";
 import AvailableProjects from "./pages/dashboard/AvailableProjects";
 import ProjectDetails from "./pages/dashboard/ProjectDetails";
-import DesignerProfile from "./pages/dashboard/DesignerProfile";
 
 const queryClient = new QueryClient();
 
@@ -47,7 +46,6 @@ const App = () => (
           <Route path="/auth" element={<Auth />} />
           {/* Dashboard Routes */}
           <Route path="/dashboard/designer" element={<DesignerDashboard />} />
-          <Route path="/dashboard/designer/profile" element={<DesignerProfile />} />
           <Route path="/dashboard/designer/*" element={<DesignerDashboard />} />
           <Route path="/dashboard/designer/available-projects" element={<AvailableProjects />} />
           <Route path="/dashboard/designer/project/:id" element={<ProjectDetails />} />
